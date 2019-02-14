@@ -1,2 +1,4 @@
-This is a small compiler
-but strong enough!
+# Minsk
+
+> This is a lightweight compiler.
+> But enough big!
