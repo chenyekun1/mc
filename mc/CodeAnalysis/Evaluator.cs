@@ -18,8 +18,8 @@ namespace mc.CodeAlalysis
 
         private int EvaluateExpression(ExpressionSyntax root)
         {
-            if (root is NumberExpressionSyntax n)
-                return (int) n.Token.Value;
+            if (root is LiteralExpressionSyntax n)
+                return (int) n.LiteralToken.Value;
             
             if (root is BinaryExpressionSyntax b)
             {

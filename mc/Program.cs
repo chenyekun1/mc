@@ -4,9 +4,9 @@ using mc.CodeAlalysis;
 
 namespace mc
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
             bool showTree = false;
 

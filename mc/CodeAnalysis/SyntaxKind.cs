@@ -2,6 +2,7 @@ namespace mc.CodeAlalysis
 {
     public enum SyntaxKind
     {
+        // Tokens
         NumberToken,
         PlusToken,
         MinusToken,
@@ -12,6 +13,8 @@ namespace mc.CodeAlalysis
         BadToken,
         EndOfFileToken,
         WhitespaceToken,
+        
+        // Expressions
         NumberExpression,
         BinaryExpression,
         ParenthesizedExpression
