@@ -17,6 +17,7 @@ namespace mc.CodeAlalysis
         // Expressions
         NumberExpression,
         BinaryExpression,
-        ParenthesizedExpression
+        ParenthesizedExpression,
+        UnaryExpression
     }
 }

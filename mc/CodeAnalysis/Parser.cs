@@ -53,7 +53,20 @@ namespace mc.CodeAlalysis
 
         private ExpressionSyntax ParseExpression(int parentPrecedence = 0)
         {
-            var left = ParsePrimaryExpression();
+            ExpressionSyntax left;
+
+            var unaryOperatorPrecedence = Current.Kind.GetBinaryOperatorPrecedence();
+
+            if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
+            {
+                var unaryOperatorToken = NextToken();
+                var operand = ParseExpression();
+                left = new UnaryExpressionSyntax(unaryOperatorToken, operand);
+            }
+            else
+            {
+                left = ParsePrimaryExpression();
+            }
 
             while (true)
             {

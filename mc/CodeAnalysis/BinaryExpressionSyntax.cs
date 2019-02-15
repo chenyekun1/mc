@@ -4,7 +4,7 @@ namespace mc.CodeAlalysis
 {
     public sealed class BinaryExpressionSyntax : ExpressionSyntax
     {
-        public BinaryExpressionSyntax(ExpressionSyntax left, SyntaxNode operatorToken, ExpressionSyntax right)
+        public BinaryExpressionSyntax(ExpressionSyntax left, SyntaxToken operatorToken, ExpressionSyntax right)
         {
             Left = left;
             OperatorToken = operatorToken;
@@ -14,7 +14,7 @@ namespace mc.CodeAlalysis
         public override SyntaxKind Kind => SyntaxKind.BinaryExpression;
 
         public ExpressionSyntax Left { get; }
-        public SyntaxNode OperatorToken { get; }
+        public SyntaxToken OperatorToken { get; }
         public ExpressionSyntax Right { get; }
 
         public override IEnumerable<SyntaxNode> GetChildren()

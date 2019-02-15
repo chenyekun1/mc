@@ -20,6 +20,18 @@ namespace mc.CodeAlalysis
         {
             if (root is LiteralExpressionSyntax n)
                 return (int) n.LiteralToken.Value;
+
+            if (root is UnaryExpressionSyntax u)
+            {
+                var operand = EvaluateExpression(u.Operand);
+
+                if (u.OperatorToken.Kind == SyntaxKind.MinusToken)
+                    return -operand;
+                else if (u.OperatorToken.Kind == SyntaxKind.PlusToken)
+                    return operand;
+                else
+                    throw new Exception($"Error: Unexpect Unary Operator <{u.OperatorToken.Kind}>");
+            }
             
             if (root is BinaryExpressionSyntax b)
             {
