@@ -3,7 +3,7 @@ namespace mc.CodeAlalysis
     public enum SyntaxKind
     {
         // Tokens
-        NumberToken,
+        LiteralToken,
         PlusToken,
         MinusToken,
         StarToken,

@@ -47,7 +47,7 @@ namespace mc.CodeAlalysis
                 if (!int.TryParse(text, out var value))
                     _diagnostics.Add($"Error: {text} is not a legal int32");
 
-                return new SyntaxToken(SyntaxKind.NumberToken, strt, text, value);
+                return new SyntaxToken(SyntaxKind.LiteralToken, strt, text, value);
             }
 
             if (char.IsWhiteSpace(Current))

@@ -110,7 +110,7 @@ namespace mc.CodeAlalysis
                 return new ParenthesizedExpressionSyntax(left, expression, right);
             }
 
-            var numberToken = Match(SyntaxKind.NumberToken);
+            var numberToken = Match(SyntaxKind.LiteralToken);
             return new LiteralExpressionSyntax(numberToken);
         }
     }
