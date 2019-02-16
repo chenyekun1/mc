@@ -21,7 +21,7 @@ namespace mc.CodeAlalysis
         private int EvaluateExpression(BoundExpression root)
         {
             if (root is BoundLiteralExpression n)
-                return (int) n.Value;
+                return (int)n.Value;
 
             if (root is BoundUnaryExpression u)
             {
@@ -37,7 +37,7 @@ namespace mc.CodeAlalysis
                         throw new Exception($"Error: Unexpect Unary Operator <{u.OperatorKind}>");
                 }
             }
-            
+
             if (root is BoundBinaryExpression b)
             {
                 var left = EvaluateExpression(b.Left);

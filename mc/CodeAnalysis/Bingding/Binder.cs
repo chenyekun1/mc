@@ -15,11 +15,11 @@ namespace mc.CodeAlalysis.Binding
             switch (syntax.Kind)
             {
                 case SyntaxKind.BinaryExpression:
-                    return BindBinaryExpression((BinaryExpressionSyntax) syntax);
+                    return BindBinaryExpression((BinaryExpressionSyntax)syntax);
                 case SyntaxKind.UnaryExpression:
-                    return BindUnaryExpression((UnaryExpressionSyntax) syntax);
+                    return BindUnaryExpression((UnaryExpressionSyntax)syntax);
                 case SyntaxKind.NumberExpression:
-                    return BindLiteralExpression((LiteralExpressionSyntax) syntax);
+                    return BindLiteralExpression((LiteralExpressionSyntax)syntax);
                 default:
                     throw new Exception($"Unexpected syntax : {syntax.Kind}");
             }
@@ -27,7 +27,7 @@ namespace mc.CodeAlalysis.Binding
 
         private BoundExpression BindLiteralExpression(LiteralExpressionSyntax syntax)
         {
-            var val = syntax.LiteralToken.Value as int ? ?? 0;
+            var val = syntax.LiteralToken.Value as int? ?? 0;
             return new BoundLiteralExpression(val);
         }
 
@@ -41,7 +41,7 @@ namespace mc.CodeAlalysis.Binding
                 _diagnostics.Add($"Unary operator '{syntax.OperatorToken.Kind}' is not defined for type '{boundOperand.Type}'");
                 return boundOperand;
             }
-            
+
             return new BoundUnaryExpression(boundOperatorKind.Value, boundOperand);
         }
 
