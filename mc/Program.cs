@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using mc.CodeAlalysis;
+using mc.CodeAlalysis.Binding;
 using mc.CodeAlalysis.Syntax;
 
 namespace mc
@@ -32,26 +34,28 @@ namespace mc
                 }
                 
                 var expressionTree = SyntaxTree.Parse(line);
+                var binder = new Binder();
+                var boundExpression = binder.BindExpression(expressionTree.Root);
 
-                var color = Console.ForegroundColor;
+                var diagnostics = expressionTree.Diagnostics.Concat(binder.Diagnostics).ToArray();
 
                 if (showTree)
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Print(expressionTree.Root);
-                    Console.ForegroundColor = color;
+                    Console.ResetColor();
                 }
 
-                if (expressionTree.Diagnostics.Any())
+                if (!diagnostics.Any())
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     foreach (string diagnostic in expressionTree.Diagnostics)
                         Console.WriteLine(diagnostic);
-                    Console.ForegroundColor = color;
+                    Console.ResetColor();
                 }
                 else
                 {
-                    var e = new Evaluator(expressionTree.Root);
+                    var e = new Evaluator(boundExpression);
                     var res = e.Evaluate();
                     Console.WriteLine(res);
                 }
