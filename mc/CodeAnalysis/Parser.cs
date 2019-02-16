@@ -55,7 +55,7 @@ namespace mc.CodeAlalysis
         {
             ExpressionSyntax left;
 
-            var unaryOperatorPrecedence = Current.Kind.GetBinaryOperatorPrecedence();
+            var unaryOperatorPrecedence = Current.Kind.GetUnaryOperatorPrecedence();
 
             if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
             {
