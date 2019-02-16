@@ -1,4 +1,4 @@
-namespace mc.CodeAlalysis
+namespace mc.CodeAlalysis.Syntax
 {
     public static class SyntaxFacts
     {
