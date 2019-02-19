@@ -25,9 +25,21 @@ namespace mc.CodeAlalysis.Syntax
             }
         }
 
+        private char Lookahead => Peek(1);
+
         private void Next()
         {
             _position++;
+        }
+
+        private char Peek(int offset)
+        {
+            var index = _position + offset;
+
+            if (index >= _text.Length)
+                return '\0';
+            
+            return _text[index];
         }
 
         public SyntaxToken NextToken()
@@ -90,6 +102,16 @@ namespace mc.CodeAlalysis.Syntax
                     return new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, "(", null);
                 case ')':
                     return new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null);
+                case '!':
+                    return new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null);
+                case '&':
+                    if (Lookahead == '&')
+                        return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _position+=2, "&&", null);
+                    break;
+                case '|':
+                    if (Lookahead == '|')
+                        return new SyntaxToken(SyntaxKind.PipePipeToken, _position+=2, "||", null);
+                    break;
             }
 
             _diagnostics.Add($"Error: Bad Characters input: '{Current}'");

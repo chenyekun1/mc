@@ -5,6 +5,8 @@ namespace mc.CodeAlalysis.Binding
         Addition,
         Subtraction,
         Multiplication,
-        Division
+        Division,
+        LogicalAnd,
+        LogicalOr
     }
 }
