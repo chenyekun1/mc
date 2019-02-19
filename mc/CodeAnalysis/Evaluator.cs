@@ -27,7 +27,7 @@ namespace mc.CodeAlalysis
             {
                 var operand = EvaluateExpression(u.Operand);
 
-                switch (u.OperatorKind)
+                switch (u.Operator.Kind)
                 {
                     case BoundUnaryOperatorKind.Negation:
                         return -(int) operand;
@@ -37,7 +37,7 @@ namespace mc.CodeAlalysis
                         return !(bool) operand;
 
                     default:
-                        throw new Exception($"Error: Unexpect Unary Operator <{u.OperatorKind}>");
+                        throw new Exception($"Error: Unexpect Unary Operator <{u.Operator}>");
                 }
             }
 
@@ -46,7 +46,7 @@ namespace mc.CodeAlalysis
                 var left = EvaluateExpression(b.Left);
                 var right = EvaluateExpression(b.Right);
 
-                switch (b.OperatorKind)
+                switch (b.Operator.Kind)
                 {
                     case BoundBinaryOperatorKind.Addition:
                         return (int) left + (int) right;
@@ -62,7 +62,7 @@ namespace mc.CodeAlalysis
                         return (bool) left || (bool) right;
 
                     default:
-                        throw new Exception($"Error: Unexpected Binary Operator <{b.OperatorKind}>");
+                        throw new Exception($"Error: Unexpected Binary Operator <{b.Operator}>");
                 }
             }
 

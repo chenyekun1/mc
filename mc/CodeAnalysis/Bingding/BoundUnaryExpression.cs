@@ -4,13 +4,13 @@ namespace mc.CodeAlalysis.Binding
 {
     internal sealed class BoundUnaryExpression : BoundExpression
     {
-        public BoundUnaryExpression(BoundUnaryOperatorKind operatorKind, BoundExpression operand)
+        public BoundUnaryExpression(BoundUnaryOperator op, BoundExpression operand)
         {
-            OperatorKind = operatorKind;
+            Operator = op;
             Operand = operand;
         }
 
-        public BoundUnaryOperatorKind OperatorKind { get; }
+        public BoundUnaryOperator Operator { get; }
         public BoundExpression Operand { get; }
 
         public override Type Type => Operand.Type;
