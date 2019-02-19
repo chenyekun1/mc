@@ -13,6 +13,12 @@ namespace mc.CodeAlalysis.Syntax
         BadToken,
         EndOfFileToken,
         WhitespaceToken,
+        IdentifierToken,
+        
+
+        // Keywords
+        TrueKeyword,
+        FalseKeyword,
         
         // Expressions
         NumberExpression,

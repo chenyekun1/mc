@@ -27,7 +27,7 @@ namespace mc.CodeAlalysis.Binding
 
         private BoundExpression BindLiteralExpression(LiteralExpressionSyntax syntax)
         {
-            var val = syntax.LiteralToken.Value as int? ?? 0;
+            var val = syntax.Value ?? 0;
             return new BoundLiteralExpression(val);
         }
 

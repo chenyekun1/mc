@@ -46,10 +46,10 @@ namespace mc
                     Console.ResetColor();
                 }
 
-                if (!diagnostics.Any())
+                if (diagnostics.Any())
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    foreach (string diagnostic in expressionTree.Diagnostics)
+                    foreach (string diagnostic in diagnostics)
                         Console.WriteLine(diagnostic);
                     Console.ResetColor();
                 }

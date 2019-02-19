@@ -63,6 +63,19 @@ namespace mc.CodeAlalysis.Syntax
                 return new SyntaxToken(SyntaxKind.WhitespaceToken, strt, text, null);
             }
 
+            if (char.IsLetter(Current))
+            {
+                var strt = _position;
+
+                while (char.IsLetter(Current))
+                    Next();
+                
+                var length = _position - strt;
+                var text = _text.Substring(strt, length);
+                var kind = SyntaxFacts.GetKeywordKind(text);
+                return new SyntaxToken(kind, strt, text, null);
+            }
+
             switch (Current)
             {
                 case '+':
