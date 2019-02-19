@@ -53,7 +53,7 @@ namespace mc.CodeAlalysis.Binding
 
             if (boundOperator == null)
             {
-                _diagnostics.Add($"Unary operator '{syntax.OperatorToken.Kind}' is not defined for type '{left.Type}' and '{right.Type}'");
+                _diagnostics.Add($"Binary operator '{syntax.OperatorToken.Kind}' is not defined for type '{left.Type}' and '{right.Type}'");
                 return left;
             }
 

@@ -13,7 +13,7 @@ namespace mc.CodeAlalysis.Binding
         public BoundUnaryOperator Operator { get; }
         public BoundExpression Operand { get; }
 
-        public override Type Type => Operand.Type;
+        public override Type Type => Operator.ResultType;
 
         public override BoundNodeKind Kind => BoundNodeKind.UnaryExpression;
     }

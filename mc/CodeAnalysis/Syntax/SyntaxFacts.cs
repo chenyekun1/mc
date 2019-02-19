@@ -10,11 +10,15 @@ namespace mc.CodeAlalysis.Syntax
             {
                 case SyntaxKind.PlusToken:
                 case SyntaxKind.MinusToken:
-                    return 3;
+                    return 4;
 
                 case SyntaxKind.StarToken:
                 case SyntaxKind.SlashToken:
-                    return 4;
+                    return 5;
+
+                case SyntaxKind.BangEqualsToken:
+                case SyntaxKind.EqualsToken:
+                    return 3;
 
                 case SyntaxKind.AmpersandAmpersandToken:
                     return 2;
@@ -34,7 +38,7 @@ namespace mc.CodeAlalysis.Syntax
                 case SyntaxKind.PlusToken:
                 case SyntaxKind.MinusToken:
                 case SyntaxKind.BangToken:
-                    return 5;
+                    return 6;
 
                 default:
                     return 0;

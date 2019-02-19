@@ -19,7 +19,7 @@ namespace mc.CodeAlalysis.Binding
         public BoundBinaryOperator Operator { get; }
         public BoundExpression Right { get; }
 
-        public override Type Type => Left.Type;
+        public override Type Type => Operator.ResultType;
 
         public override BoundNodeKind Kind => BoundNodeKind.BinaryExpression;
     }

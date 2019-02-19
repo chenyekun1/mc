@@ -27,6 +27,8 @@ namespace mc.CodeAlalysis.Syntax
         NumberExpression,
         BinaryExpression,
         ParenthesizedExpression,
-        UnaryExpression
+        UnaryExpression,
+        EqualsToken,
+        BangEqualsToken
     }
 }
