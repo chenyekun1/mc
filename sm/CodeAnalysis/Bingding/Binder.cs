@@ -4,6 +4,10 @@ using mc.CodeAlalysis.Syntax;
 
 namespace mc.CodeAlalysis.Binding
 {
+    /*
+    * TODO
+    * Add parenthesis support Binder
+     */
     internal sealed class Binder
     {
         private readonly List<string> _diagnostics = new List<string>();

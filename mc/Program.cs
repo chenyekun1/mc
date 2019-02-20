@@ -7,7 +7,7 @@ using mc.CodeAlalysis.Syntax;
 
 namespace mc
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main()
         {
@@ -34,10 +34,10 @@ namespace mc
                 }
                 
                 var expressionTree = SyntaxTree.Parse(line);
-                var binder = new Binder();
-                var boundExpression = binder.BindExpression(expressionTree.Root);
+                var compilation = new Compilation(expressionTree);
+                var evaluationResult = compilation.Evaluate();
 
-                var diagnostics = expressionTree.Diagnostics.Concat(binder.Diagnostics).ToArray();
+                var diagnostics = evaluationResult.Diagnostics;
 
                 if (showTree)
                 {
@@ -55,8 +55,7 @@ namespace mc
                 }
                 else
                 {
-                    var e = new Evaluator(boundExpression);
-                    var res = e.Evaluate();
+                    var res = evaluationResult.Value;
                     Console.WriteLine(res);
                 }
             }
