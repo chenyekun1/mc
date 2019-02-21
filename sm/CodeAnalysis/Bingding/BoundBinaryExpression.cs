@@ -2,7 +2,6 @@ using System;
 
 namespace mc.CodeAlalysis.Binding
 {
-
     internal sealed class BoundBinaryExpression : BoundExpression
     {
         public BoundBinaryExpression(

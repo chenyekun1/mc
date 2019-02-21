@@ -70,6 +70,12 @@ namespace mc.CodeAlalysis
                 }
             }
 
+            if (root is BoundParenthesisExpression p)
+            {
+                var value = EvaluateExpression(p.Expression);
+                return value;
+            }
+
             throw new Exception($"Error: Unexpected Node Kind '{root.Kind}'");
         }
     }

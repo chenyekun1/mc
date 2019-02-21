@@ -24,9 +24,17 @@ namespace mc.CodeAlalysis.Binding
                     return BindUnaryExpression((UnaryExpressionSyntax)syntax);
                 case SyntaxKind.NumberExpression:
                     return BindLiteralExpression((LiteralExpressionSyntax)syntax);
+                case SyntaxKind.ParenthesizedExpression:
+                    return BindParenthesisExpression((ParenthesizedExpressionSyntax)syntax);
                 default:
                     throw new Exception($"Unexpected syntax : {syntax.Kind}");
             }
+        }
+
+        private BoundExpression BindParenthesisExpression(ParenthesizedExpressionSyntax syntax)
+        {
+            var boundExpression = BindExpression(syntax.Expression);
+            return new BoundParenthesisExpression(syntax.OpenParenthesisToken, boundExpression, syntax.CloseParenthesisToken);
         }
 
         private BoundExpression BindLiteralExpression(LiteralExpressionSyntax syntax)

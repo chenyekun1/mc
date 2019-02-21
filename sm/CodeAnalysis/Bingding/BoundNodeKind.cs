@@ -4,6 +4,7 @@ namespace mc.CodeAlalysis.Binding
     {
         UnaryExpression,
         LiteralExpression,
-        BinaryExpression
+        BinaryExpression,
+        ParenthesisExpression
     }
 }
