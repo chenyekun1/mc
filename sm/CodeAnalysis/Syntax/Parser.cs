@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using mc.CodeAlalysis;
 
 namespace mc.CodeAlalysis.Syntax
 {
@@ -7,9 +8,9 @@ namespace mc.CodeAlalysis.Syntax
     {
         private SyntaxToken[] _tokens;
         private int _position;
-        private List<string> _diagnostics = new List<string>();
+        private DiagnosticBag _diagnostics = new DiagnosticBag();
 
-        public IEnumerable<string> Diagnostics => _diagnostics;
+        public DiagnosticBag Diagnostics => _diagnostics;
 
         public Parser(string text)
         {
@@ -87,7 +88,7 @@ namespace mc.CodeAlalysis.Syntax
             if (Current.Kind == kind)
                 return NextToken();
             
-            _diagnostics.Add($"Error: Unexpected token <{Current.Kind}>. Expected <{kind}>");
+            _diagnostics.ReportUnexpectedToken(Current.Span, Current.Kind, kind);
             return new SyntaxToken(kind, Current.Position, null, null);
         }
 

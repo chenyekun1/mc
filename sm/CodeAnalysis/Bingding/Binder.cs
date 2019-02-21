@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using mc.CodeAlalysis.Syntax;
+using mc.CodeAlalysis;
 
 namespace mc.CodeAlalysis.Binding
 {
@@ -10,9 +11,9 @@ namespace mc.CodeAlalysis.Binding
      */
     internal sealed class Binder
     {
-        private readonly List<string> _diagnostics = new List<string>();
+        private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
 
-        public IEnumerable<string> Diagnostics => _diagnostics;
+        public DiagnosticBag Diagnostics => _diagnostics;
 
         public BoundExpression BindExpression(ExpressionSyntax syntax)
         {
@@ -50,7 +51,7 @@ namespace mc.CodeAlalysis.Binding
 
             if (boundOperator == null)
             {
-                _diagnostics.Add($"Unary operator '{syntax.OperatorToken.Kind}' is not defined for type '{boundOperand.Type}'");
+                _diagnostics.ReportUndefinedUnaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, boundOperand.Type);
                 return boundOperand;
             }
 
@@ -65,7 +66,7 @@ namespace mc.CodeAlalysis.Binding
 
             if (boundOperator == null)
             {
-                _diagnostics.Add($"Binary operator '{syntax.OperatorToken.Kind}' is not defined for type '{left.Type}' and '{right.Type}'");
+                _diagnostics.ReportUndefinedBinaryOperator(syntax.OperatorToken.Span, syntax.OperatorToken.Text, left.Type, right.Type);
                 return left;
             }
 

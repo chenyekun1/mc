@@ -22,7 +22,7 @@ namespace mc.CodeAlalysis
                 return new EvaluationResult(diagnostics, null);
             
             var evalutor = new Evaluator(boundExpression);
-            return new EvaluationResult(Array.Empty<string>(), evalutor.Evaluate());
+            return new EvaluationResult(Array.Empty<Diagnostic>(), evalutor.Evaluate());
         }
 
         public SyntaxTree Syntax { get; }

@@ -48,10 +48,25 @@ namespace mc
 
                 if (diagnostics.Any())
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    foreach (string diagnostic in diagnostics)
+                    
+                    foreach (var diagnostic in diagnostics)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine(diagnostic);
-                    Console.ResetColor();
+                        Console.ResetColor();
+
+                        var prefix = line.Substring(0, diagnostic.Span.Strt);
+                        var error = line.Substring(diagnostic.Span.Strt, diagnostic.Span.Len);
+                        var suffix = line.Substring(diagnostic.Span.End);
+                        Console.Write("    ");
+
+                        Console.Write(prefix);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(error);
+                        Console.ResetColor();
+                        Console.Write(suffix);
+                        Console.WriteLine();
+                    }
                 }
                 else
                 {
