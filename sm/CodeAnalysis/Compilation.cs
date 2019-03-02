@@ -2,6 +2,7 @@ using System;
 using mc.CodeAlalysis.Syntax;
 using mc.CodeAlalysis.Binding;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace mc.CodeAlalysis
 {
@@ -12,16 +13,16 @@ namespace mc.CodeAlalysis
             Syntax = syntax;
         }
 
-        public EvaluationResult Evaluate()
+        public EvaluationResult Evaluate(Dictionary<string,object> variables)
         {
-            var binder = new Binder();
+            var binder = new Binder(variables);
             var boundExpression = binder.BindExpression(Syntax.Root);
             var diagnostics = Syntax.Diagnostics.Concat(binder.Diagnostics).ToList();
 
             if (diagnostics.Any())
                 return new EvaluationResult(diagnostics, null);
             
-            var evalutor = new Evaluator(boundExpression);
+            var evalutor = new Evaluator(boundExpression, variables);
             return new EvaluationResult(Array.Empty<Diagnostic>(), evalutor.Evaluate());
         }
 

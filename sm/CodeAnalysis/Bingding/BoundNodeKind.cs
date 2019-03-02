@@ -5,6 +5,8 @@ namespace mc.CodeAlalysis.Binding
         UnaryExpression,
         LiteralExpression,
         BinaryExpression,
-        ParenthesisExpression
+        ParenthesisExpression,
+        VariableExpression,
+        AssignmentExpression
     }
 }

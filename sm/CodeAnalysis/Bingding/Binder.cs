@@ -12,6 +12,12 @@ namespace mc.CodeAlalysis.Binding
     internal sealed class Binder
     {
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
+        private readonly Dictionary<string, object> _variables;
+
+        public Binder(Dictionary<string, object> variables)
+        {
+            _variables = variables;
+        }
 
         public DiagnosticBag Diagnostics => _diagnostics;
 
@@ -27,9 +33,33 @@ namespace mc.CodeAlalysis.Binding
                     return BindLiteralExpression((LiteralExpressionSyntax)syntax);
                 case SyntaxKind.ParenthesizedExpression:
                     return BindParenthesisExpression((ParenthesizedExpressionSyntax)syntax);
+                case SyntaxKind.NameExpression:
+                    return BindNameExpression((NameExpressionSyntax)syntax);
+                case SyntaxKind.AssignmentExpression:
+                    return BindAssignmentExpression((AssignmentExpressionSyntax)syntax);
                 default:
                     throw new Exception($"Unexpected syntax : {syntax.Kind}");
             }
+        }
+
+        private BoundExpression BindAssignmentExpression(AssignmentExpressionSyntax syntax)
+        {
+            var name = syntax.IdentifierToken.Text;
+            var boundExpression = BindExpression(syntax.Expression);
+            return new BoundAssignmentExpression(name, boundExpression);
+        }
+
+        private BoundExpression BindNameExpression(NameExpressionSyntax syntax)
+        {
+            var name = syntax.IdentifierToken.Text;
+            if (!_variables.TryGetValue(name, out object value))
+            {
+                _diagnostics.ReportUndefinedName(syntax.IdentifierToken.Span, name);
+                return new BoundLiteralExpression(0);
+            }
+
+            var type = typeof(int);
+            return new BoundVariableExpression(name, type);
         }
 
         private BoundExpression BindParenthesisExpression(ParenthesizedExpressionSyntax syntax)

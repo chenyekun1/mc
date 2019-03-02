@@ -99,6 +99,25 @@ namespace mc.CodeAlalysis.Syntax
             return new SyntaxTree(_diagnostics, expression, endOfFileToken);
         }
 
+        private ExpressionSyntax ParseExpression()
+        {
+            return ParseAssignmentExpression();
+        }
+
+        private ExpressionSyntax ParseAssignmentExpression()
+        {
+            if (Peek(0).Kind == SyntaxKind.IdentifierToken &&
+                Peek(1).Kind == SyntaxKind.AssignEqualsToken)
+            {
+                var identifierToken = NextToken();
+                var operatorToken = NextToken();
+                var right = ParseAssignmentExpression();
+                return new AssignmentExpressionSyntax(identifierToken, operatorToken, right);
+            }
+
+            return ParseExpression();
+        }
+
         private ExpressionSyntax ParsePrimaryExpression()
         {
             switch (Current.Kind)
@@ -118,6 +137,12 @@ namespace mc.CodeAlalysis.Syntax
                     var keywordToken = NextToken();
                     var value = keywordToken.Kind == SyntaxKind.TrueKeyword;
                     return new LiteralExpressionSyntax(keywordToken, value);
+                }
+
+                case SyntaxKind.IdentifierToken:
+                {
+                    var identifierToken = NextToken();
+                    return new NameExpressionSyntax(identifierToken);
                 }
 
                 default:

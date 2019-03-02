@@ -1,16 +1,19 @@
 using System;
 using mc.CodeAlalysis.Binding;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace mc.CodeAlalysis
 {
     internal sealed class Evaluator
     {
         private readonly BoundExpression _root;
+        private readonly Dictionary<string, object> _variables;
 
-        public Evaluator(BoundExpression root)
+        public Evaluator(BoundExpression root, Dictionary<string, object> variables)
         {
             _root = root;
+            _variables = variables;
         }
 
         public object Evaluate()
@@ -22,6 +25,16 @@ namespace mc.CodeAlalysis
         {
             if (root is BoundLiteralExpression n)
                 return n.Value;
+
+            if (root is BoundVariableExpression v)
+                return _variables[v.Name];
+
+            if (root is BoundAssignmentExpression a)
+            {
+                var value = EvaluateExpression(a.BoundExpression);
+                _variables[a.Name] = value;
+                return value;
+            }
 
             if (root is BoundUnaryExpression u)
             {

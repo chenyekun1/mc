@@ -118,7 +118,11 @@ namespace mc.CodeAlalysis.Syntax
                         _position+=2;
                         return new SyntaxToken(SyntaxKind.EqualsToken, strt, "==", null);
                     }
-                    break;
+                    else
+                    {
+                        _position++;
+                        return new SyntaxToken(SyntaxKind.AssignEqualsToken, strt, "=", null);
+                    }
                 case '!':
                     if (Lookahead == '=')
                     {

@@ -35,7 +35,8 @@ namespace mc
                 
                 var expressionTree = SyntaxTree.Parse(line);
                 var compilation = new Compilation(expressionTree);
-                var evaluationResult = compilation.Evaluate();
+                var variables = new Dictionary<string, object>();
+                var evaluationResult = compilation.Evaluate(variables);
 
                 var diagnostics = evaluationResult.Diagnostics;
 

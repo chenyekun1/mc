@@ -17,6 +17,7 @@ namespace mc.CodeAlalysis.Syntax
         EndOfFileToken,
         WhitespaceToken,
         IdentifierToken,
+        AssignEqualsToken,
         
 
         // Keywords
@@ -29,6 +30,8 @@ namespace mc.CodeAlalysis.Syntax
         ParenthesizedExpression,
         UnaryExpression,
         EqualsToken,
-        BangEqualsToken
+        BangEqualsToken,
+        NameExpression,
+        AssignmentExpression
     }
 }
