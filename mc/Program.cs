@@ -13,6 +13,9 @@ namespace mc
         {
             bool showTree = false;
 
+            //Initialize the default variables
+            var variables = new Dictionary<string, object>();
+
             while (true)
             {
                 Console.Write("> ");
@@ -35,9 +38,7 @@ namespace mc
                 
                 var expressionTree = SyntaxTree.Parse(line);
                 var compilation = new Compilation(expressionTree);
-                var variables = new Dictionary<string, object>();
                 var evaluationResult = compilation.Evaluate(variables);
-
                 var diagnostics = evaluationResult.Diagnostics;
 
                 if (showTree)

@@ -52,7 +52,7 @@ namespace mc.CodeAlalysis.Syntax
             return token;
         }
 
-        private ExpressionSyntax ParseExpression(int parentPrecedence = 0)
+        private ExpressionSyntax ParseBinaryExpression(int parentPrecedence = 0)
         {
             ExpressionSyntax left;
 
@@ -76,7 +76,7 @@ namespace mc.CodeAlalysis.Syntax
                     break;
                 
                 var operatorToken = NextToken();
-                var right = ParseExpression(precedence);
+                var right = ParseBinaryExpression(precedence);
                 left = new BinaryExpressionSyntax(left, operatorToken, right);
             }
 
@@ -115,7 +115,7 @@ namespace mc.CodeAlalysis.Syntax
                 return new AssignmentExpressionSyntax(identifierToken, operatorToken, right);
             }
 
-            return ParseExpression();
+            return ParseBinaryExpression();
         }
 
         private ExpressionSyntax ParsePrimaryExpression()
