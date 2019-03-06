@@ -14,7 +14,7 @@ namespace mc
             bool showTree = false;
 
             //Initialize the default variables
-            var variables = new Dictionary<string, object>();
+            var variables = new Dictionary<VariableSymbol, object>();
 
             while (true)
             {
