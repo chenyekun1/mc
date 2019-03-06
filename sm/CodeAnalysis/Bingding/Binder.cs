@@ -46,6 +46,18 @@ namespace mc.CodeAlalysis.Binding
         {
             var name = syntax.IdentifierToken.Text;
             var boundExpression = BindExpression(syntax.Expression);
+
+            var defaultValue =
+                boundExpression.Type == typeof(int)
+                    ? (object)0
+                    : boundExpression.Type == typeof(bool)
+                        ? (object)false
+                            : null;
+
+            if (defaultValue == null)
+                throw new Exception($"Unsupport variable type '{boundExpression.Type}'");
+            _variables[name] = defaultValue;
+
             return new BoundAssignmentExpression(name, boundExpression);
         }
 
@@ -58,7 +70,7 @@ namespace mc.CodeAlalysis.Binding
                 return new BoundLiteralExpression(0);
             }
 
-            var type = typeof(int);
+            var type = value.GetType();
             return new BoundVariableExpression(name, type);
         }
 
