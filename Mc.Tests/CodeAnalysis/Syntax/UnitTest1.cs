@@ -23,7 +23,7 @@ namespace Mc.Tests.CodeAnalysis.Syntax
         public void Lexer_Lexes_TokenPairs(SyntaxKind t1Kind, string t1Text,
                                            SyntaxKind t2Kind, string t2Text)
         {
-            var text = t1Text + " " + t2Text;
+            var text = t1Text + t2Text;
             var tokens = SyntaxTree.ParseToken(text).ToArray();
             
             Assert.Equal(2, tokens.Length);
@@ -36,14 +36,42 @@ namespace Mc.Tests.CodeAnalysis.Syntax
 
         public static IEnumerable<object[]> GetTokensData()
         {
-            foreach (var t in GetTokens())
+            foreach (var t in GetTokens().Concat(GetSeperators()))
                 yield return new object[] {t.kind, t.text};
         }
 
         public static IEnumerable<object[]> GetTokenPairsData()
         {
             foreach (var t in GetTokensPair())
-                yield return new object[] {t.kind1, t.text2, t.kind2, t.text2};
+                yield return new object[] {t.kind1, t.text1, t.kind2, t.text2};
+        }
+
+        private static bool RequiredSeperated(SyntaxKind t1Kind, SyntaxKind t2Kind)
+        {
+            var t1IsKeyword = t1Kind.ToString().EndsWith("Keyword");
+            var t2IsKeyword = t2Kind.ToString().EndsWith("Keyword");
+
+            if (t1Kind == SyntaxKind.IdentifierToken && t2Kind == SyntaxKind.IdentifierToken)
+                return true;
+            if (t1IsKeyword && t2IsKeyword)
+                return true;
+            if (t1IsKeyword && t2Kind == SyntaxKind.IdentifierToken)
+                return true;
+            if (t1Kind == SyntaxKind.LiteralToken && t2Kind == SyntaxKind.LiteralToken)
+                return true;
+            if (t1Kind == SyntaxKind.IdentifierToken && t2IsKeyword)
+                return true;
+            if (t1Kind == SyntaxKind.EqualsToken && t2Kind == SyntaxKind.EqualsToken)
+                return true;
+            if (t1Kind == SyntaxKind.AssignEqualsToken && t2Kind == SyntaxKind.AssignEqualsToken)
+                return true;
+            if (t1Kind == SyntaxKind.AssignEqualsToken && t2Kind == SyntaxKind.EqualsToken)
+                return true;
+            if (t1Kind == SyntaxKind.BangToken && t2Kind == SyntaxKind.EqualsToken)
+                return true;
+            if (t1Kind == SyntaxKind.BangToken && t2Kind == SyntaxKind.AssignEqualsToken)
+                return true;
+            return false;
         }
 
         private static IEnumerable<(SyntaxKind kind, string text)> GetTokens()
@@ -64,25 +92,34 @@ namespace Mc.Tests.CodeAnalysis.Syntax
                 (SyntaxKind.PipePipeToken, "||"),
                 (SyntaxKind.AmpersandAmpersandToken, "&&"),
                 (SyntaxKind.BadToken, "$"),
-
-                (SyntaxKind.WhitespaceToken, " "),
-                (SyntaxKind.WhitespaceToken, "  "),
-                (SyntaxKind.WhitespaceToken, "\r"),
-                (SyntaxKind.WhitespaceToken, "\n"),
-                (SyntaxKind.WhitespaceToken, "\r\n"),
+                (SyntaxKind.TrueKeyword, "true"),
+                (SyntaxKind.FalseKeyword, "false"),
 
                 (SyntaxKind.BangEqualsToken, "!="),
                 (SyntaxKind.EqualsToken, "=="),
                 (SyntaxKind.AssignEqualsToken, "=")
             };
         }
-    
+
+        private static IEnumerable<(SyntaxKind kind, string text)> GetSeperators()
+        {
+            return new[]
+            {
+                (SyntaxKind.WhitespaceToken, " "),
+                (SyntaxKind.WhitespaceToken, "  "),
+                (SyntaxKind.WhitespaceToken, "\r"),
+                (SyntaxKind.WhitespaceToken, "\n"),
+                (SyntaxKind.WhitespaceToken, "\r\n")
+            };
+        }
+
         private static IEnumerable<(SyntaxKind kind1, string text1,SyntaxKind kind2, string text2)> GetTokensPair()
         {
             foreach (var t1 in GetTokens())
             {
                 foreach (var t2 in GetTokens())
-                 yield return (t1.kind, t1.text, t2.kind, t2.text);
+                    if (!RequiredSeperated(t1.kind, t2.kind))
+                        yield return (t1.kind, t1.text, t2.kind, t2.text);
             }
         }
     }
