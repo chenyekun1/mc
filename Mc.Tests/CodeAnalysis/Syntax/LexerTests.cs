@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Mc.Tests.CodeAnalysis.Syntax
 {
+
     public class LexerTest
     {
         [Theory]

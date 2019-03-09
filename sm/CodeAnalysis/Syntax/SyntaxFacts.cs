@@ -57,5 +57,48 @@ namespace mc.CodeAlalysis.Syntax
                     return SyntaxKind.IdentifierToken;
             }
         }
+
+        public static string GetTest(SyntaxKind kind)
+        {
+            switch (kind)
+            {
+                case SyntaxKind.IdentifierToken:
+                    return "vc";
+                case SyntaxKind.LiteralToken:
+                    return "1";
+                case SyntaxKind.PlusToken:
+                    return "+";
+                case SyntaxKind.MinusToken:
+                    return "-";
+                case SyntaxKind.StarToken:
+                    return "*";
+                case SyntaxKind.SlashToken:
+                    return "/";
+                case SyntaxKind.OpenParenthesisToken:
+                    return "(";
+                case SyntaxKind.CloseParenthesisToken:
+                    return ")";
+                case SyntaxKind.BangToken:
+                    return "!";
+                case SyntaxKind.PipePipeToken:
+                    return "||";
+                case SyntaxKind.AmpersandAmpersandToken:
+                    return "&&";
+                case SyntaxKind.BadToken:
+                    return "$";
+                case SyntaxKind.TrueKeyword:
+                    return "true";
+                case SyntaxKind.FalseKeyword:
+                    return "false";
+                case SyntaxKind.BangEqualsToken:
+                    return "!=";
+                case SyntaxKind.EqualsToken:
+                    return "==";
+                case SyntaxKind.AssignEqualsToken:
+                    return "=";
+                default:
+                    return null;
+            }
+        }
     }
 }
