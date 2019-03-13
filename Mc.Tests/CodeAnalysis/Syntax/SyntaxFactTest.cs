@@ -11,7 +11,7 @@ namespace Mc.Tests.CodeAnalysis.Syntax
         [MemberData(nameof(GetSyntaxKindData))]
         public void SyntaxFact_GetText_RoundTrips(SyntaxKind kind)
         {
-            var text = SyntaxFacts.GetTest(kind);
+            var text = SyntaxFacts.GetText(kind);
             if (text == null)
                 return;
             

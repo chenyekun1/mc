@@ -61,7 +61,7 @@ namespace mc.CodeAlalysis.Syntax
             if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
             {
                 var unaryOperatorToken = NextToken();
-                var operand = ParseExpression();
+                var operand = ParseBinaryExpression(unaryOperatorPrecedence);
                 left = new UnaryExpressionSyntax(unaryOperatorToken, operand);
             }
             else

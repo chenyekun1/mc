@@ -81,7 +81,7 @@ namespace mc.CodeAlalysis.Syntax
             }
         }
 
-        public static string GetTest(SyntaxKind kind)
+        public static string GetText(SyntaxKind kind)
         {
             switch (kind)
             {
