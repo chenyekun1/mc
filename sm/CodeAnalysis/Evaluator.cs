@@ -23,73 +23,92 @@ namespace mc.CodeAlalysis
 
         private object EvaluateExpression(BoundExpression root)
         {
-            if (root is BoundLiteralExpression n)
-                return n.Value;
-
-            if (root is BoundVariableExpression v)
-                return _variables[v.Variable];
-
-            if (root is BoundAssignmentExpression a)
+            switch (root)
             {
-                var value = EvaluateExpression(a.BoundExpression);
-                _variables[a.Variable] = value;
-                return value;
+                case BoundLiteralExpression n:
+                    return EvaluateLiteralExpression(n);
+                case BoundVariableExpression v:
+                    return EvaluateVariableExpression(v);
+                case BoundAssignmentExpression a:
+                    return EvaluateAssignmentExpression(a);
+                case BoundUnaryExpression u:
+                    return EvaluateUnaryExpression(u);
+                case BoundBinaryExpression b:
+                    return EvaluateBinaryExpression(b);
+                case BoundParenthesisExpression p:
+                    return EvaluateParenthesisExpression(p);
+                default:
+                    throw new Exception($"Error: Unexpected Node Kind '{root.Kind}'");
             }
+        }
 
-            if (root is BoundUnaryExpression u)
+        private object EvaluateParenthesisExpression(BoundParenthesisExpression p)
+        {
+            return EvaluateExpression(p.Expression);
+        }
+
+        private object EvaluateBinaryExpression(BoundBinaryExpression b)
+        {
+            var left = EvaluateExpression(b.Left);
+            var right = EvaluateExpression(b.Right);
+
+            switch (b.Operator.Kind)
             {
-                var operand = EvaluateExpression(u.Operand);
+                case BoundBinaryOperatorKind.Addition:
+                    return (int)left + (int)right;
+                case BoundBinaryOperatorKind.Subtraction:
+                    return (int)left - (int)right;
+                case BoundBinaryOperatorKind.Multiplication:
+                    return (int)left * (int)right;
+                case BoundBinaryOperatorKind.Division:
+                    return (int)left / (int)right;
+                case BoundBinaryOperatorKind.LogicalAnd:
+                    return (bool)left && (bool)right;
+                case BoundBinaryOperatorKind.LogicalOr:
+                    return (bool)left || (bool)right;
+                case BoundBinaryOperatorKind.Equal:
+                    return Equals(left, right);
+                case BoundBinaryOperatorKind.BangEquals:
+                    return !Equals(left, right);
 
-                switch (u.Operator.Kind)
-                {
-                    case BoundUnaryOperatorKind.Negation:
-                        return -(int) operand;
-                    case BoundUnaryOperatorKind.Identity:
-                        return (int) operand;
-                    case BoundUnaryOperatorKind.LogicalNegation:
-                        return !(bool) operand;
-
-                    default:
-                        throw new Exception($"Error: Unexpect Unary Operator <{u.Operator}>");
-                }
+                default:
+                    throw new Exception($"Error: Unexpected Binary Operator <{b.Operator}>");
             }
+        }
 
-            if (root is BoundBinaryExpression b)
+        private object EvaluateUnaryExpression(BoundUnaryExpression u)
+        {
+            var operand = EvaluateExpression(u.Operand);
+
+            switch (u.Operator.Kind)
             {
-                var left = EvaluateExpression(b.Left);
-                var right = EvaluateExpression(b.Right);
+                case BoundUnaryOperatorKind.Negation:
+                    return -(int)operand;
+                case BoundUnaryOperatorKind.Identity:
+                    return (int)operand;
+                case BoundUnaryOperatorKind.LogicalNegation:
+                    return !(bool)operand;
 
-                switch (b.Operator.Kind)
-                {
-                    case BoundBinaryOperatorKind.Addition:
-                        return (int) left + (int) right;
-                    case BoundBinaryOperatorKind.Subtraction:
-                        return (int) left - (int) right;
-                    case BoundBinaryOperatorKind.Multiplication:
-                        return (int) left * (int) right;
-                    case BoundBinaryOperatorKind.Division:
-                        return (int) left / (int) right;
-                    case BoundBinaryOperatorKind.LogicalAnd:
-                        return (bool) left && (bool) right;
-                    case BoundBinaryOperatorKind.LogicalOr:
-                        return (bool) left || (bool) right;
-                    case BoundBinaryOperatorKind.Equal:
-                        return Equals(left, right);
-                    case BoundBinaryOperatorKind.BangEquals:
-                        return !Equals(left, right);
-
-                    default:
-                        throw new Exception($"Error: Unexpected Binary Operator <{b.Operator}>");
-                }
+                default:
+                    throw new Exception($"Error: Unexpect Unary Operator <{u.Operator}>");
             }
+        }
 
-            if (root is BoundParenthesisExpression p)
-            {
-                var value = EvaluateExpression(p.Expression);
-                return value;
-            }
+        private object EvaluateVariableExpression(BoundVariableExpression v)
+        {
+            return _variables[v.Variable];
+        }
 
-            throw new Exception($"Error: Unexpected Node Kind '{root.Kind}'");
+        private object EvaluateLiteralExpression(BoundLiteralExpression n)
+        {
+            return n.Value;
+        }
+
+        private object EvaluateAssignmentExpression(BoundAssignmentExpression a)
+        {
+            var value = EvaluateExpression(a.BoundExpression);
+            _variables[a.Variable] = value;
+            return value;
         }
     }
 }
