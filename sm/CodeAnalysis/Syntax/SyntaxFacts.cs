@@ -85,10 +85,6 @@ namespace mc.CodeAlalysis.Syntax
         {
             switch (kind)
             {
-                case SyntaxKind.IdentifierToken:
-                    return "vc";
-                case SyntaxKind.LiteralToken:
-                    return "1";
                 case SyntaxKind.PlusToken:
                     return "+";
                 case SyntaxKind.MinusToken:
