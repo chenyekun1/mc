@@ -123,32 +123,46 @@ namespace mc.CodeAlalysis.Syntax
             switch (Current.Kind)
             {
                 case SyntaxKind.OpenParenthesisToken:
-                {
-                    var left = NextToken();
-                    var expression = ParseExpression();
-                    var right = Match(SyntaxKind.CloseParenthesisToken);
-
-                    return new ParenthesizedExpressionSyntax(left, expression, right);
-                }
+                    return ParseParenthesisExpression();
 
                 case SyntaxKind.FalseKeyword:
                 case SyntaxKind.TrueKeyword:
-                {
-                    var keywordToken = NextToken();
-                    var value = keywordToken.Kind == SyntaxKind.TrueKeyword;
-                    return new LiteralExpressionSyntax(keywordToken, value);
-                }
+                    return ParseBooleanLiteral();
 
                 case SyntaxKind.IdentifierToken:
-                {
-                    var identifierToken = NextToken();
-                    return new NameExpressionSyntax(identifierToken);
-                }
+                    return ParseNameExpression();
 
                 default:
-                    var numberToken = Match(SyntaxKind.LiteralToken);
-                    return new LiteralExpressionSyntax(numberToken);
+                    return ParseNumberToken();
             }
+        }
+
+        private ExpressionSyntax ParseNumberToken()
+        {
+            var numberToken = Match(SyntaxKind.LiteralToken);
+            return new LiteralExpressionSyntax(numberToken);
+        }
+
+        private ExpressionSyntax ParseParenthesisExpression()
+        {
+            var left       = Match(SyntaxKind.OpenParenthesisToken);
+            var expression = ParseExpression();
+            var right      = Match(SyntaxKind.CloseParenthesisToken);
+
+            return new ParenthesizedExpressionSyntax(left, expression, right);
+        }
+
+        private ExpressionSyntax ParseBooleanLiteral()
+        {
+            var keywordToken = NextToken();
+            var value        = keywordToken.Kind == SyntaxKind.TrueKeyword;
+            return new LiteralExpressionSyntax(keywordToken, value);
+        }
+
+        private ExpressionSyntax ParseNameExpression()
+        {
+            var identifierToken = Match(SyntaxKind.IdentifierToken);
+            return new NameExpressionSyntax(identifierToken);
         }
     }
 }
