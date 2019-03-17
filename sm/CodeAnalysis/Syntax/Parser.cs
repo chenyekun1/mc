@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using mc.CodeAlalysis;
 
 namespace mc.CodeAlalysis.Syntax
@@ -96,7 +97,7 @@ namespace mc.CodeAlalysis.Syntax
         {
             var expression = ParseExpression();
             var endOfFileToken = Match(SyntaxKind.EndOfFileToken);
-            return new SyntaxTree(_diagnostics, expression, endOfFileToken);
+            return new SyntaxTree(_diagnostics.ToImmutableArray(), expression, endOfFileToken);
         }
 
         private ExpressionSyntax ParseExpression()

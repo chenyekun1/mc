@@ -3,6 +3,7 @@ using mc.CodeAlalysis.Syntax;
 using mc.CodeAlalysis.Binding;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace mc.CodeAlalysis
 {
@@ -17,13 +18,13 @@ namespace mc.CodeAlalysis
         {
             var binder = new Binder(variables);
             var boundExpression = binder.BindExpression(Syntax.Root);
-            var diagnostics = Syntax.Diagnostics.Concat(binder.Diagnostics).ToList();
+            var diagnostics = Syntax.Diagnostics.Concat(binder.Diagnostics).ToImmutableArray();
 
             if (diagnostics.Any())
                 return new EvaluationResult(diagnostics, null);
             
             var evalutor = new Evaluator(boundExpression, variables);
-            return new EvaluationResult(Array.Empty<Diagnostic>(), evalutor.Evaluate());
+            return new EvaluationResult(ImmutableArray<Diagnostic>.Empty, evalutor.Evaluate());
         }
 
         public SyntaxTree Syntax { get; }
