@@ -1,6 +1,6 @@
 using System;
 
-namespace mc.CodeAlalysis
+namespace mc.CodeAlalysis.Text
 {
     public struct TextSpan
     {

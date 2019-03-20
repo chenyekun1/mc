@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using mc.CodeAlalysis.Syntax;
+using mc.CodeAlalysis.Text;
 
 namespace mc.CodeAlalysis
 {

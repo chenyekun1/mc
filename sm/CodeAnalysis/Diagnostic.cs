@@ -1,3 +1,5 @@
+using mc.CodeAlalysis.Text;
+
 namespace mc.CodeAlalysis
 {
     public sealed class Diagnostic
