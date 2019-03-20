@@ -142,6 +142,31 @@ namespace mc.CodeAlalysis.Syntax
                             _kind = SyntaxKind.BangToken;
                         }
                         break;
+                    case '>':
+                        if (Lookahead == '>')
+                        {
+                            _position+=2;
+                            _kind = SyntaxKind.RightShiftToken;
+                        }
+                        else
+                        {
+                            _position++;
+                            _kind = SyntaxKind.BiggerCompareToken;
+                        }
+                        break;
+                    case '<':
+                        if (Lookahead == '<')
+                        {
+                            _position+=2;
+                            _kind = SyntaxKind.LeftShiftToken;
+                        }
+                        else
+                        {
+                            _position++;
+                            _kind = SyntaxKind.LesserCompareToken;
+                        }
+                        break;
+                        
                     default:
                         _diagnostics.ReportNadCharacter(_position, Current);
                         _position++;

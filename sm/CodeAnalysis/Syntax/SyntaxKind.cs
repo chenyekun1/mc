@@ -34,6 +34,10 @@ namespace mc.CodeAlalysis.Syntax
         NameExpression,
         AssignmentExpression,
         AmpersandToken,
-        PipeToken
+        PipeToken,
+        RightShiftToken,
+        BiggerCompareToken,
+        LeftShiftToken,
+        LesserCompareToken
     }
 }

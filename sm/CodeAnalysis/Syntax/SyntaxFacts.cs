@@ -17,10 +17,14 @@ namespace mc.CodeAlalysis.Syntax
                 case SyntaxKind.SlashToken:
                 case SyntaxKind.PipeToken:
                 case SyntaxKind.AmpersandToken:
+                case SyntaxKind.LeftShiftToken:
+                case SyntaxKind.RightShiftToken:
                     return 5;
 
                 case SyntaxKind.BangEqualsToken:
                 case SyntaxKind.EqualsToken:
+                case SyntaxKind.BiggerCompareToken:
+                case SyntaxKind.LesserCompareToken:
                     return 3;
 
                 case SyntaxKind.AmpersandAmpersandToken:
@@ -121,6 +125,14 @@ namespace mc.CodeAlalysis.Syntax
                     return "|";
                 case SyntaxKind.AmpersandToken:
                     return "&";
+                case SyntaxKind.LeftShiftToken:
+                    return "<<";
+                case SyntaxKind.RightShiftToken:
+                    return ">>";
+                case SyntaxKind.BiggerCompareToken:
+                    return ">";
+                case SyntaxKind.LesserCompareToken:
+                    return "<";
                 
                 default:
                     return null;

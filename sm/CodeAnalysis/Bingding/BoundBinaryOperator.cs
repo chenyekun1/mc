@@ -90,6 +90,24 @@ namespace mc.CodeAlalysis.Binding
             new BoundBinaryOperator(
                 SyntaxKind.PipeToken,
                 BoundBinaryOperatorKind.MathmaticalOr,
+                typeof(int)),
+            new BoundBinaryOperator(
+                SyntaxKind.LesserCompareToken,
+                BoundBinaryOperatorKind.LessCompare,
+                typeof(int), typeof(int),
+                typeof(bool)),
+            new BoundBinaryOperator(
+                SyntaxKind.BiggerCompareToken,
+                BoundBinaryOperatorKind.BiggerCompare,
+                typeof(int), typeof(int),
+                typeof(bool)),
+            new BoundBinaryOperator(
+                SyntaxKind.LeftShiftToken,
+                BoundBinaryOperatorKind.LeftShift,
+                typeof(int)),
+            new BoundBinaryOperator(
+                SyntaxKind.RightShiftToken,
+                BoundBinaryOperatorKind.RIghtShift,
                 typeof(int))
         };
 

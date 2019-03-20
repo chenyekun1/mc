@@ -11,6 +11,10 @@ namespace mc.CodeAlalysis.Binding
         BangEquals,
         Equal,
         MathmaticalAnd,
-        MathmaticalOr
+        MathmaticalOr,
+        LessCompare,
+        BiggerCompare,
+        LeftShift,
+        RIghtShift
     }
 }

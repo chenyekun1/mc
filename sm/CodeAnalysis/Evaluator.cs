@@ -74,6 +74,14 @@ namespace mc.CodeAlalysis
                     return (int)left & (int)right;
                 case BoundBinaryOperatorKind.MathmaticalOr:
                     return (int)left | (int)right;
+                case BoundBinaryOperatorKind.LeftShift:
+                    return (int)left << (int)right;
+                case BoundBinaryOperatorKind.RIghtShift:
+                    return (int)left >> (int)right;
+                case BoundBinaryOperatorKind.BiggerCompare:
+                    return (int)left > (int)right;
+                case BoundBinaryOperatorKind.LessCompare:
+                    return (int)left < (int)right;
 
                 default:
                     throw new Exception($"Error: Unexpected Binary Operator <{b.Operator}>");
