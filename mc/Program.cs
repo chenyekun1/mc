@@ -44,7 +44,7 @@ namespace mc
                 if (showTree)
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Print(expressionTree.Root);
+                    expressionTree.Root.WriteTo(Console.Out);
                     Console.ResetColor();
                 }
 
@@ -76,29 +76,6 @@ namespace mc
                     Console.WriteLine(res);
                 }
             }
-        }
-
-        public static void Print(SyntaxNode node, string indent = "", bool isLast = true)
-        {
-            var marker = isLast ? "└──" : "├──";
-
-            Console.Write(indent);
-            Console.Write(marker);
-            Console.Write(node.Kind);
-
-            if (node is SyntaxToken t && t.Value != null)
-            {
-                Console.Write(" ");
-                Console.Write(t.Value);
-            }
-
-            Console.WriteLine();
-            indent += isLast ? "    " : "│   ";
-
-            var lastChild = node.GetChildren().LastOrDefault();
-
-            foreach (var child in node.GetChildren())
-                Print(child, indent, child == lastChild);
         }
     }
 }
