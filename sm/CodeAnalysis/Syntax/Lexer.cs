@@ -100,12 +100,22 @@ namespace mc.CodeAlalysis.Syntax
                             _position+=2;
                             _kind = SyntaxKind.AmpersandAmpersandToken;
                         }
+                        else
+                        {
+                            _position++;
+                            _kind = SyntaxKind.AmpersandToken;
+                        }
                         break;
                     case '|':
                         if (Lookahead == '|')
                         {
                             _position+=2;
                             _kind = SyntaxKind.PipePipeToken;
+                        }
+                        else
+                        {
+                            _position++;
+                            _kind = SyntaxKind.PipeToken;
                         }
                         break;
                     case '=':

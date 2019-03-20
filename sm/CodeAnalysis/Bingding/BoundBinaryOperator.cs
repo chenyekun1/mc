@@ -82,7 +82,15 @@ namespace mc.CodeAlalysis.Binding
             new BoundBinaryOperator(
                 SyntaxKind.EqualsToken,
                 BoundBinaryOperatorKind.Equal,
-                typeof(bool))
+                typeof(bool)),
+            new BoundBinaryOperator(
+                SyntaxKind.AmpersandToken,
+                BoundBinaryOperatorKind.MathmaticalAnd,
+                typeof(int)),
+            new BoundBinaryOperator(
+                SyntaxKind.PipeToken,
+                BoundBinaryOperatorKind.MathmaticalOr,
+                typeof(int))
         };
 
         public static BoundBinaryOperator Bind(SyntaxKind syntaxKind, Type leftType, Type rightType)

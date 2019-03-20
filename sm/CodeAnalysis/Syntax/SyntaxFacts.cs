@@ -15,6 +15,8 @@ namespace mc.CodeAlalysis.Syntax
 
                 case SyntaxKind.StarToken:
                 case SyntaxKind.SlashToken:
+                case SyntaxKind.PipeToken:
+                case SyntaxKind.AmpersandToken:
                     return 5;
 
                 case SyntaxKind.BangEqualsToken:
@@ -115,6 +117,11 @@ namespace mc.CodeAlalysis.Syntax
                     return "==";
                 case SyntaxKind.AssignEqualsToken:
                     return "=";
+                case SyntaxKind.PipeToken:
+                    return "|";
+                case SyntaxKind.AmpersandToken:
+                    return "&";
+                
                 default:
                     return null;
             }

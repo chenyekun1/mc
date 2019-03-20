@@ -70,6 +70,10 @@ namespace mc.CodeAlalysis
                     return Equals(left, right);
                 case BoundBinaryOperatorKind.BangEquals:
                     return !Equals(left, right);
+                case BoundBinaryOperatorKind.MathmaticalAnd:
+                    return (int)left & (int)right;
+                case BoundBinaryOperatorKind.MathmaticalOr:
+                    return (int)left | (int)right;
 
                 default:
                     throw new Exception($"Error: Unexpected Binary Operator <{b.Operator}>");

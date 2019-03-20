@@ -9,6 +9,8 @@ namespace mc.CodeAlalysis.Binding
         LogicalAnd,
         LogicalOr,
         BangEquals,
-        Equal
+        Equal,
+        MathmaticalAnd,
+        MathmaticalOr
     }
 }

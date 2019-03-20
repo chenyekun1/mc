@@ -32,6 +32,8 @@ namespace mc.CodeAlalysis.Syntax
         EqualsToken,
         BangEqualsToken,
         NameExpression,
-        AssignmentExpression
+        AssignmentExpression,
+        AmpersandToken,
+        PipeToken
     }
 }
