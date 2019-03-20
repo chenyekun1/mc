@@ -55,7 +55,8 @@ namespace mc.CodeAlalysis.Syntax
             if (char.IsDigit(Current))
             {
                 ReadNumberToken();
-            } else if (char.IsWhiteSpace(Current))
+            }
+            else if (char.IsWhiteSpace(Current))
             {
                 ReadWhiteSpaceToken();
             }
@@ -174,15 +175,11 @@ namespace mc.CodeAlalysis.Syntax
                 }
             }
             
-            /* var length = _position - _start;
-            var text = _text.Substring(_start, length); */
             var length = _position - _start;
             var text   = SyntaxFacts.GetText(_kind);
             if (text == null) text = _text.Substring(_start, length);
 
             return new SyntaxToken(_kind, _position, text, _value);
-
-            //return new SyntaxToken(SyntaxKind.BadToken, _position++, _text.Substring(_position - 1, 1), null);
         }
 
         private void ReadIdentifierOrKeywordToken()
