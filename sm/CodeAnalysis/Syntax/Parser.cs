@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using mc.CodeAlalysis;
+using mc.CodeAlalysis.Text;
 
 namespace mc.CodeAlalysis.Syntax
 {
@@ -13,7 +14,7 @@ namespace mc.CodeAlalysis.Syntax
 
         public DiagnosticBag Diagnostics => _diagnostics;
 
-        public Parser(string text)
+        public Parser(SourceText text)
         {
             var lexer = new Lexer(text);
             var tokens = new List<SyntaxToken>();

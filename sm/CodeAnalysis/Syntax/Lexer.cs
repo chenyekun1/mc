@@ -5,7 +5,7 @@ namespace mc.CodeAlalysis.Syntax
 {
     public class Lexer
     {
-        private readonly string _text;
+        private readonly SourceText _text;
         private int _position;
         private readonly DiagnosticBag _diagnostics = new DiagnosticBag();
 
@@ -15,7 +15,7 @@ namespace mc.CodeAlalysis.Syntax
         private object _value;
         private SyntaxKind _kind;
 
-        public Lexer(string text)
+        public Lexer(SourceText text)
         {
             _text = text;
         }
@@ -208,7 +208,7 @@ namespace mc.CodeAlalysis.Syntax
             var length = _position - _start;
             var text = _text.Substring(_start, length);
             if (!int.TryParse(text, out var value))
-                _diagnostics.ReportInvalidNumber(new TextSpan(_start, length), _text, typeof(int));
+                _diagnostics.ReportInvalidNumber(new TextSpan(_start, length), text, typeof(int));
 
             _value = value;
             _kind  = SyntaxKind.LiteralToken;

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using mc.CodeAlalysis;
+using mc.CodeAlalysis.Text;
 
 namespace mc.CodeAlalysis.Syntax
 {
@@ -20,11 +21,17 @@ namespace mc.CodeAlalysis.Syntax
     
         public static SyntaxTree Parse(string text)
         {
+            var sourceText = SourceText.From(text);
+            return Parse(sourceText);
+        }
+
+        public static SyntaxTree Parse(SourceText text)
+        {
             var parser = new Parser(text);
             return parser.Parse();
         }
 
-        public static IEnumerable<SyntaxToken> ParseToken(string text)
+        public static IEnumerable<SyntaxToken> ParseToken(SourceText text)
         {
             var lexer = new Lexer(text);
 
@@ -36,6 +43,12 @@ namespace mc.CodeAlalysis.Syntax
                 
                 yield return token;
             }
+        }
+
+        public static IEnumerable<SyntaxToken> ParseToken(string text)
+        {
+            var sourceText = SourceText.From(text);
+            return ParseToken(sourceText);
         }
     }
 }
