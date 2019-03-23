@@ -50,10 +50,15 @@ namespace mc
 
                 if (diagnostics.Any())
                 {
-                    
+                    var text = expressionTree.Text;
                     foreach (var diagnostic in diagnostics)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        var lineIndex  = text.GetLineIndex(diagnostic.Span.Strt);
+                        var lineNumber = lineIndex + 1;
+                        var character  = diagnostic.Span.Strt - text.Lines[lineIndex].Start + 1;
+
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write($"({lineNumber}, {character}): ");
                         Console.WriteLine(diagnostic);
                         Console.ResetColor();
 
@@ -63,7 +68,8 @@ namespace mc
                         Console.Write("    ");
 
                         Console.Write(prefix);
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+
                         Console.Write(error);
                         Console.ResetColor();
                         Console.Write(suffix);

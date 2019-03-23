@@ -34,6 +34,7 @@ namespace mc.CodeAlalysis.Syntax
 
             _diagnostics.AddRange(lexer.Diagnostics);
             _tokens = tokens.ToArray();
+            Text = text;
         }
 
         private SyntaxToken Peek(int offset)
@@ -46,6 +47,8 @@ namespace mc.CodeAlalysis.Syntax
         }
 
         private SyntaxToken Current => Peek(0);
+
+        public SourceText Text { get; }
 
         private SyntaxToken NextToken()
         {
@@ -98,7 +101,7 @@ namespace mc.CodeAlalysis.Syntax
         {
             var expression = ParseExpression();
             var endOfFileToken = Match(SyntaxKind.EndOfFileToken);
-            return new SyntaxTree(_diagnostics.ToImmutableArray(), expression, endOfFileToken);
+            return new SyntaxTree(Text, _diagnostics.ToImmutableArray(), expression, endOfFileToken);
         }
 
         private ExpressionSyntax ParseExpression()
