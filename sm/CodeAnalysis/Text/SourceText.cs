@@ -28,7 +28,7 @@ namespace mc.CodeAlalysis.Text
                 var index = lower + (upper - lower) / 2;
                 var start = Lines[index].Start;
 
-                if (start == index) return index;
+                if (start == position) return index;
 
                 if (start > position)
                 {

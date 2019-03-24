@@ -27,7 +27,7 @@ namespace mc
 
                 var input   = Console.ReadLine();
                 var isBlank = string.IsNullOrWhiteSpace(input);
-                textBuilder.Append(input);
+                textBuilder.AppendLine(input);
                 
                 if (textBuilder.Length == 0)
                 {
