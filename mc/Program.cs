@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using mc.CodeAlalysis;
 using mc.CodeAlalysis.Binding;
 using mc.CodeAlalysis.Syntax;
+using mc.CodeAlalysis.Text;
 
 namespace mc
 {
@@ -11,60 +13,62 @@ namespace mc
     {
         private static void Main()
         {
-            bool showTree = false;
-
             //Initialize the default variables
-            var variables = new Dictionary<VariableSymbol, object>();
+            var showTree    = false;
+            var variables   = new Dictionary<VariableSymbol, object>();
+            var textBuilder = new StringBuilder();
 
             while (true)
             {
-                Console.Write("> ");
-                var line = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(line))
-                    continue;
+                if (textBuilder.Length == 0)
+                    Console.Write("> ");
+                else
+                    Console.Write("| ");
+
+                var input   = Console.ReadLine();
+                var isBlank = string.IsNullOrWhiteSpace(input);
+                textBuilder.Append(input);
                 
-                if (line.Equals("#showtree"))
+                if (textBuilder.Length == 0)
                 {
-                    showTree = !showTree;
-                    Console.WriteLine(showTree ? "Showing parser trees Turn on" : "Showing parser trees Turn off");
+                    showTree = BuildinCommand(showTree, input);
                     continue;
                 }
 
-                if (line.Equals("#cls"))
-                {
-                    Console.Clear();
-                    continue;
-                }
+                var text = textBuilder.ToString();
                 
-                var expressionTree = SyntaxTree.Parse(line);
+                var expressionTree = SyntaxTree.Parse(text);
+
+                if (!isBlank && expressionTree.Diagnostics.Any())
+                    continue;
+
                 var compilation = new Compilation(expressionTree);
                 var evaluationResult = compilation.Evaluate(variables);
                 var diagnostics = evaluationResult.Diagnostics;
 
                 if (showTree)
-                {
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    expressionTree.Root.WriteTo(Console.Out);
-                    Console.ResetColor();
-                }
+                    DisplaySyntaxTree(expressionTree);
 
                 if (diagnostics.Any())
                 {
-                    var text = expressionTree.Text;
                     foreach (var diagnostic in diagnostics)
                     {
-                        var lineIndex  = text.GetLineIndex(diagnostic.Span.Strt);
+                        var lineIndex  = expressionTree.Text.GetLineIndex(diagnostic.Span.Strt);
+                        var line       = expressionTree.Text.Lines[lineIndex];
                         var lineNumber = lineIndex + 1;
-                        var character  = diagnostic.Span.Strt - text.Lines[lineIndex].Start + 1;
+                        var character  = diagnostic.Span.Strt - line.Start + 1;
 
                         Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.Write($"({lineNumber}, {character}): ");
                         Console.WriteLine(diagnostic);
                         Console.ResetColor();
 
-                        var prefix = line.Substring(0, diagnostic.Span.Strt);
-                        var error = line.Substring(diagnostic.Span.Strt, diagnostic.Span.Len);
-                        var suffix = line.Substring(diagnostic.Span.End);
+                        var prefixSpan = TextSpan.FromBounds(line.Start, diagnostic.Span.Strt);
+                        var suffixSpan = TextSpan.FromBounds(diagnostic.Span.End, line.End);
+
+                        var prefix = expressionTree.Text.ToString(prefixSpan);
+                        var error = expressionTree.Text.ToString(diagnostic.Span);
+                        var suffix = expressionTree.Text.ToString(suffixSpan);
                         Console.Write("    ");
 
                         Console.Write(prefix);
@@ -81,7 +85,32 @@ namespace mc
                     var res = evaluationResult.Value;
                     Console.WriteLine(res);
                 }
+
+                textBuilder.Clear();
             }
+        }
+
+        private static void DisplaySyntaxTree(SyntaxTree expressionTree)
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            expressionTree.Root.WriteTo(Console.Out);
+            Console.ResetColor();
+        }
+
+        private static bool BuildinCommand(bool showTree, string line)
+        {
+            if (line.Equals("#showtree"))
+            {
+                showTree = !showTree;
+                Console.WriteLine(showTree ? "Showing parser trees Turn on" : "Showing parser trees Turn off");
+            }
+
+            if (line.Equals("#cls"))
+            {
+                Console.Clear();
+            }
+
+            return showTree;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace mc.CodeAlalysis.Text
         public int Len { get; }
         public int End => Strt + Len;
 
-        internal static TextSpan FromBounds(int strt, int end)
+        public static TextSpan FromBounds(int strt, int end)
         {
             var length = end - strt;
             return new TextSpan(strt, length);
