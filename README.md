@@ -4,8 +4,7 @@
 >
 > 
 >
-> ​	This repo contains my learning trace about Compiler using C#.(and may never finish..)
+> ​	This repo contains my learning trace about Compiler using C#.
 >
-> ​	Doesn't matter, just for fun.
 >
 > 
